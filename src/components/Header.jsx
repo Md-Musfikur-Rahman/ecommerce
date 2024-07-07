@@ -6,7 +6,6 @@ const Header = () => (
     <h1>Demo E-commerce</h1>
     <nav>
       <Link to="/">Home</Link>
-      <Link to="/product">Product Page</Link>
       <Link to="/checkout">Checkout</Link>
     </nav>
   </header>

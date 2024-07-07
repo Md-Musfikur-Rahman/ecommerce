@@ -1,40 +1,7 @@
-// import { useEffect, useState } from "react";
-// import { fetchProductByCat } from "../services/api";
+import { Link } from "react-router-dom";
 import ProductByCata from "../ProductByCat.json";
 
-const ProductByCat = () => {
-  // const [productCategories, setProductCategories] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   const getProductCategories = async () => {
-  //     try {
-  //       const result = await fetchProductByCat();
-  //       console.log("Fetched result:", result);
-  //       if (result && result.status === "OK") {
-  //         setProductCategories(result.data.products);
-  //       } else {
-  //         throw new Error("Failed to fetch product categories");
-  //       }
-  //     } catch (error) {
-  //       setError(error.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   getProductCategories();
-  // }, []);
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
-
+const ProductPage = ({ addToCart }) => {
   return (
     <div>
       <h1>Product Categories</h1>
@@ -142,8 +109,27 @@ const ProductByCat = () => {
                     cursor: "pointer",
                     marginTop: "10px",
                   }}
+                  onClick={() => addToCart(product)}
                 >
                   Add to Cart
+                </button>
+                <button
+                  style={{
+                    backgroundColor: "#007bff",
+                    color: "white",
+                    border: "none",
+                    padding: "8px 16px",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Link
+                    to={`/product/${product.asin}`}
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
+                    View Details
+                  </Link>
                 </button>
               </div>
             </div>
@@ -154,4 +140,4 @@ const ProductByCat = () => {
   );
 };
 
-export default ProductByCat;
+export default ProductPage;

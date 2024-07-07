@@ -1,5 +1,6 @@
 // import { useEffect, useState } from "react";
 // import { fetchProducts } from "../services/api";
+import { Link } from "react-router-dom";
 import ProductCategorie from "../ProductCategorie.json";
 
 const ProductCategories = () => {
@@ -40,7 +41,9 @@ const ProductCategories = () => {
       <h1>Product Categories</h1>
       <ul>
         {ProductCategorie.map((product) => (
-          <li key={product.id}>{product.name.trim()}</li>
+          <Link to="/product">
+            <li key={product.id}>{product.name.trim()}</li>
+          </Link>
         ))}
       </ul>
     </div>
