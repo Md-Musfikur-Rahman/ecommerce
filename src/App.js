@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import ProductDetails from "./pages/ProductDetails";
 import CheckoutPage from "./pages/CheckoutPage";
+import CartPage from "./pages/CartPage";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -26,7 +28,7 @@ const App = () => {
 
   return (
     <Router>
-      <Header />
+      <Header cartItems={cartItems} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -41,7 +43,14 @@ const App = () => {
           path="/checkout"
           element={<CheckoutPage cartItems={cartItems} />}
         />
+        <Route
+          path="/cart"
+          element={
+            <CartPage cartItems={cartItems} setCartItems={setCartItems} />
+          }
+        />
       </Routes>
+      <Footer />
     </Router>
   );
 };

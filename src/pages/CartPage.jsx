@@ -1,9 +1,21 @@
 import React from "react";
 
-const Cart = ({ cartItems }) => {
+const CartPage = ({ cartItems, setCartItems }) => {
   const calculateTotalPrice = (price, quantity) => {
     const numericPrice = parseFloat(price.replace("$", ""));
     return numericPrice * quantity;
+  };
+
+  const handleQuantityChange = (asin, quantity) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.asin === asin ? { ...item, quantity: parseInt(quantity) } : item
+      )
+    );
+  };
+
+  const handleRemoveItem = (asin) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.asin !== asin));
   };
 
   const grandTotal = cartItems.reduce(
@@ -14,7 +26,7 @@ const Cart = ({ cartItems }) => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Checkout</h2>
+      <h2>Cart</h2>
       {cartItems.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
@@ -36,6 +48,9 @@ const Cart = ({ cartItems }) => {
               <th style={{ border: "1px solid #ddd", padding: "8px" }}>
                 Total Price
               </th>
+              <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -55,7 +70,15 @@ const Cart = ({ cartItems }) => {
                   {item.product_price}
                 </td>
                 <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                  {item.quantity}
+                  <input
+                    type="number"
+                    min="1"
+                    value={item.quantity}
+                    onChange={(e) =>
+                      handleQuantityChange(item.asin, e.target.value)
+                    }
+                    style={{ width: "50px" }}
+                  />
                 </td>
                 <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                   $
@@ -63,6 +86,21 @@ const Cart = ({ cartItems }) => {
                     item.product_price,
                     item.quantity
                   ).toFixed(2)}
+                </td>
+                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                  <button
+                    onClick={() => handleRemoveItem(item.asin)}
+                    style={{
+                      backgroundColor: "#ff4d4d",
+                      color: "white",
+                      border: "none",
+                      padding: "5px 10px",
+                      cursor: "pointer",
+                      borderRadius: "3px",
+                    }}
+                  >
+                    Remove
+                  </button>
                 </td>
               </tr>
             ))}
@@ -88,4 +126,4 @@ const Cart = ({ cartItems }) => {
   );
 };
 
-export default Cart;
+export default CartPage;
