@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
+import ProductCategoriesDropdown from "./ProductCategoriesDropdown";
 
 const Header = ({ cartItems }) => {
   const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -25,6 +26,7 @@ const Header = ({ cartItems }) => {
         <div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+          <ProductCategoriesDropdown/>
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/" className="nav-link-custom">
                 Home

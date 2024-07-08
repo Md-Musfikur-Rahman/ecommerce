@@ -1,19 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ProductByCata from "../ProductByCat.json";
+import { fetchProductDetails } from '../services/api';
 import { Container, Row, Col, Image, Button } from "react-bootstrap";
 
 const ProductDetails = ({ addToCart }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchedProduct = ProductByCata.find((p) => p.asin === id);
-    setProduct(fetchedProduct);
+    const getProductDetails = async () => {
+      try {
+        const fallbackProduct = ProductByCata.find((p) => p.asin === id);
+        setProduct(fallbackProduct);
+      } catch (error) {
+        console.error("API call failed, using fallback JSON data", error);
+        const fetchedProduct = await fetchProductDetails(id);
+        setProduct(fetchedProduct);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getProductDetails();
   }, [id]);
 
-  if (!product) {
+  if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (!product) {
+    return <div>Product not found</div>;
   }
 
   return (

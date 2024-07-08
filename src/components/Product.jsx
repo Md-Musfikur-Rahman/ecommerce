@@ -1,16 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductByCata from "../ProductByCat.json";
+import { fetchDealProducts } from "../services/api";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-// import "./Product.css"; // Ensure to import the CSS file
 
 const Product = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const fetchedProducts = await fetchDealProducts();
+        if (fetchedProducts.length > 0) {
+          setProducts(fetchedProducts.slice(0, 12));
+        } else {
+          setProducts(ProductByCata.slice(0, 12));
+        }
+      } catch (error) {
+        console.error("API call failed, using fallback JSON data", error);
+        setProducts(ProductByCata.slice(0, 12));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getProducts();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Container className="my-4">
-      <h2 className="my-4">Populer Products </h2>
-
+      <h2 className="my-4">Popular Products</h2>
       <Row>
-        {ProductByCata.slice(0, 12).map((product, index) => (
+        {products.map((product, index) => (
           <Col key={index} xs={12} sm={6} md={4} lg={3}>
             <Card className="mb-4 product-card">
               <Card.Img
